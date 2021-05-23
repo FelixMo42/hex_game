@@ -8,15 +8,11 @@ def regular_polygone_vertices(x, y, degree, radius=60) :
         yield int(radius * math.cos((math.pi/degree) * (1 + 2 * i))) + x
         yield int(radius * math.sin((math.pi/degree) * (1 + 2 * i))) + y
 
-def draw_hex(x, y, color) :
+def draw_hex(x, y, color, radius=60, batch=None) :
     """Draw a hexagon centered at (x, y) of given color."""
 
     # the degree of a hexagon
     degree = 6
-
-    # batchs are a group of opengl commands that will
-    # be sent to the gpu to be rendered
-    batch = pyglet.graphics.Batch()
 
     # add the polygon to the batch
     polygon = batch.add(
@@ -30,11 +26,9 @@ def draw_hex(x, y, color) :
         None,
 
         # the position of the vertices of the polygon
-        ('v2i', list(regular_polygone_vertices(x, y, degree))),
+        ('v2i', list(regular_polygone_vertices(x, y, degree, radius))),
 
         # the color of each vertex
         ('c3B', color * degree) 
     )
 
-    # send the batch of to the gpu to get rendered
-    batch.draw()

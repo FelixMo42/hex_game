@@ -10,8 +10,15 @@ class GameWindow(pyglet.window.Window) :
         # make sure there is no trace of privous stuff left behing
         self.clear()
 
+        # batchs are a group of opengl commands that will
+        # be sent to the gpu to be rendered
+        batch = pyglet.graphics.Batch()
+
         # draw a hex cause I feel like it. What are you gonna do about it?
-        draw_hex(300, 300, [100, 140, 12])
+        draw_hex(300, 300, (100, 140, 12), batch=batch)
+
+        # send the batch of to the gpu to get rendered
+        batch.draw()
 
     def on_key_press(self, key, mod) :
         """Called whenever a key is pressed."""
