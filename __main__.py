@@ -1,7 +1,7 @@
 import pyglet
 
 # initlize a new window
-window = pyglet.window.Window(800, 600)
+window = pyglet.window.Window(800, 600,resizable=True)
 
 @window.event
 def on_draw():
