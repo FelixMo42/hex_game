@@ -1,5 +1,5 @@
 import pyglet
-from src.hexs import draw_hex
+from src.hexs import draw_hex, axial_to_pixel
 
 class GameWindow(pyglet.window.Window) :
     """A window, with the game in it."""
@@ -7,17 +7,19 @@ class GameWindow(pyglet.window.Window) :
     def on_draw(self) :
         """Called whenever a new frame needs to get drawn."""
         
-        # make sure there is no trace of privous stuff left behing
+        # Make sure there is no trace of privous stuff left behind.
         self.clear()
 
-        # batchs are a group of opengl commands that will
-        # be sent to the gpu to be rendered
+        # Batchs are a group of opengl commands that will
+        # be sent to the gpu to be rendered.
         batch = pyglet.graphics.Batch()
 
-        # draw a hex cause I feel like it. What are you gonna do about it?
-        draw_hex(300, 300, (100, 140, 12), batch=batch)
+        # Draw a grid of hexs.
+        for q in range(3) :
+            for r in range(3) :
+                draw_hex((q, r), (q * 30 + 60, r * 30 + 60, 12), batch=batch)
 
-        # send the batch of to the gpu to get rendered
+        # Send the batch to the gpu to get rendered.
         batch.draw()
 
     def on_key_press(self, key, mod) :
@@ -31,8 +33,8 @@ class GameWindow(pyglet.window.Window) :
         pass
 
 if __name__ == '__main__' :
-    # initlize a new window
+    # Initlize the game window.
     GameWindow(800, 600, resizable=True)
 
-    # start the actuall game
+    # Start the actuall game.
     pyglet.app.run()
