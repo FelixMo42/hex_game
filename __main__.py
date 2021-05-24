@@ -1,5 +1,5 @@
 import pyglet
-from src.hexs import draw_hex, axial_to_pixel
+from src.hexs import draw_hex
 
 class GameWindow(pyglet.window.Window) :
     """A window, with the game in it."""
