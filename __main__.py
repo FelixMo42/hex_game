@@ -1,5 +1,5 @@
 import pyglet
-from src.hexs import draw_hex
+from src.hexs import draw_hex_grid
 
 class GameWindow(pyglet.window.Window) :
     """A window, with the game in it."""
@@ -14,14 +14,22 @@ class GameWindow(pyglet.window.Window) :
         # be sent to the gpu to be rendered.
         batch = pyglet.graphics.Batch()
 
-        # Draw a grid of hexs.
-        for q in range(3) :
-            for r in range(3) :
-                draw_hex((q, r), (q * 30 + 60, r * 30 + 60, 12), batch=batch)
+        # Draw the floor hex grid
+        draw_hex_grid(
+            # The size of the grid should just be the size of the screen.
+            # The width and height are doubled for some reason.
+            size = (
+                self.width / 2,
+                self.height / 2
+            ),
+
+            # Pass in the batch so that the commands can be added to it.
+            batch = batch
+        )
 
         # Send the batch to the gpu to get rendered.
         batch.draw()
-
+    
     def on_key_press(self, key, mod) :
         """Called whenever a key is pressed."""
 

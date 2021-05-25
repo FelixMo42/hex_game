@@ -2,8 +2,8 @@ import pyglet
 from math import cos, sin, pi
 
 def regular_polygon_vertices(cord, degree, radius=60) :
-    """An iterator for the vertices in a regulat polygon centered at (x, y)."""
-
+    """An iterator for the vertices in a regular polygon centered at cord."""
+    
     for i in range(degree) :
         yield (
             int(radius * cos((pi/degree) * (1 + 2 * i))) + cord[0],
@@ -14,7 +14,7 @@ def regular_polygon_mesh_vertices(cord, degree, radius=60) :
     """An iterator for the pixel cords of the vertices
     in a triangle mesh of the given polygon."""
 
-    # Get all the vertices of the poygon.
+    # Get all the vertices of the polygon.
     vertices = list(regular_polygon_vertices(cord, degree, radius))
 
     # Yield the cordinates for each triangle.
@@ -47,3 +47,4 @@ def draw_regular_polygon(cord, degree, color, radius, batch) :
         # The color of each vertex.
         ('c3B', color * vertices)
     )
+
