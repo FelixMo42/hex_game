@@ -3,7 +3,7 @@ from .polydraw import draw_regular_polygon
 
 sqrt3 = sqrt(3)
 
-def axial_to_pixel(cord, radius=60) :
+def axial_to_pixel(cord, radius=60):
     """Convert axial hex cords to pixel cords."""
     
     # unpack the axial cordinate
@@ -15,7 +15,7 @@ def axial_to_pixel(cord, radius=60) :
         int(radius * (                3 / 2 * r))
     )
 
-def draw_hex(cord, color, radius=60, batch=None) :
+def draw_hex(cord, color, radius=60, batch=None):
     """Draw a hexagon centered at the given set of axial cordinates."""
 
     draw_regular_polygon(
