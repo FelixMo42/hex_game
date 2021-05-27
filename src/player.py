@@ -1,6 +1,6 @@
 class Player:
-    def __init__(self, start_coords):
-        self.coords = start_coords
+    def __init__(self, start_cord):
+        self.cord = start_cord
         self.health = 1.00
         
     def reduce_health(self, amount):
@@ -16,12 +16,12 @@ class NPC:
     Lines is a list of strings that the NPC will say, in order.
     NPC should have an image that is displayed.
     """
-    def __init__(self, lines, image, start_coords):
+    def __init__(self, lines, image, start_cord):
         self.lines, self.image = lines, image
-        self.coords = start_coords
+        self.cord = start_cord
         self.curr_line = 0
         self.unlocked = False
-    def interact(self, player):
+    def interact_with(self, player):
         """ Interact with the given player. NPCs can do stuff 
         to characters but usually just say lines. 
         Saying lines is done by returning the line, should be displayed

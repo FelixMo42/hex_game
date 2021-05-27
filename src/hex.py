@@ -17,7 +17,7 @@ class Hex:
         self.occupant = None
         
     def is_walkable(self):
-        return self.walkable and self.occupant == None
+        return self.walkable
 
 class WallHex(Hex):
     color = (110, 48, 48)
@@ -29,7 +29,7 @@ class WallHex(Hex):
         if wall is destroyed
         """
 
-        super(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         self.walkable = False
         self.destroyed = False
@@ -42,7 +42,7 @@ class FloorHex(Hex):
         """ A normal floor tile.
         """
         
-        super(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         
     
 class LockedHex(Hex):
@@ -53,6 +53,6 @@ class LockedHex(Hex):
     destroyable = False
 
     def __init__(self, *args, **kwargs):
-        super(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         self.walkable = False
