@@ -5,6 +5,7 @@ class Hex:
     This structure is somewhat reminiscent of the 61a ants project;
     the different types of Hex tile are comparable to different ants
     """
+
     color = (255, 255, 255)
     destroyable = False
     
@@ -16,7 +17,7 @@ class Hex:
         self.occupant = None
         
     def is_walkable(self):
-        return self.walkable && self.occupant == None
+        return self.walkable and self.occupant == None
 
 class WallHex(Hex):
     color = (110, 48, 48)
@@ -27,7 +28,9 @@ class WallHex(Hex):
         Walkable is an instance attribute because it changes
         if wall is destroyed
         """
-        super.__init__(args, kwargs)
+
+        super(*args, **kwargs)
+
         self.walkable = False
         self.destroyed = False
 
@@ -38,14 +41,17 @@ class FloorHex(Hex):
     def __init__(self, *args, **kwargs):
         """ A normal floor tile.
         """
-        super.__init__(args, kwargs)
+        
+        super(*args, **kwargs)
         
     
 class LockedHex(Hex):
-    """ A locked tile cannot be walked on or interacted with
+    """ A locked tile cannot be walked on or interacted with.
     """
+
     color = (100, 100, 100)
     destroyable = False
     def __init__(self, *args, **kwargs):
-        super.__init__(args, kwargs)
+        super(*args, **kwargs)
+
         self.walkable = False
