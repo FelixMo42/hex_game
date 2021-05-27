@@ -66,3 +66,4 @@ def draw_hex_grid(size, batch) :
                 batch  = batch,
                 radius = radius
             )
+

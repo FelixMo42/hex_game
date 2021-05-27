@@ -1,8 +1,13 @@
 import pyglet
 from src.hexdraw import draw_hex_grid
+from src.map import Map
+from src.hex import FloorHex
 
 class GameWindow(pyglet.window.Window) :
     """A window, with the game in it."""
+
+    # Create the game world.
+    world = Map(100, 100)
 
     def on_draw(self) :
         """Called whenever a new frame needs to get drawn."""
