@@ -21,7 +21,7 @@ class NPC:
         self.coords = start_coords
         self.curr_line = 0
         self.unlocked = False
-    def interact(self, player):
+    def interact_with(self, player):
         """ Interact with the given player. NPCs can do stuff 
         to characters but usually just say lines. 
         Saying lines is done by returning the line, should be displayed
