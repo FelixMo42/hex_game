@@ -19,10 +19,10 @@ class Map:
             for y in range(height):
                 self.hexes[(x, y)] = WallHex()
                 
-    def get_hex(self, coords):
-        if coords not in self.hexes:
+    def get_hex(self, cord):
+        if cord not in self.hexes:
             # Return a FloorHex for now, loading from file was mentioned
-            self.set_hex(coords, FloorHex())
+            self.set_hex(cord, FloorHex())
 
         return self.hexes[cord]
 
