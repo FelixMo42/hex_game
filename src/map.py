@@ -1,4 +1,4 @@
-from .hex import FloorHex
+from .hex import WallHex, FloorHex
 
 class Map:
     """ A Map object stores all the hexes in it, as well
@@ -16,12 +16,12 @@ class Map:
         self.hexes = {}
         for x in range(width):
             for y in range(height):
-                self.hexes[(x, y)] = FloorHex()
+                self.hexes[(x, y)] = WallHex()
                 
     def get_hex(self, coords) :
-        if self.hexes[coords] == None:
-            # Instead of None, loading from file was mentioned
-            return None
+        if coords not in self.hexes:
+            # Return a FloorHex for now, loading from file was mentioned
+            self.set_hex(coords, FloorHex())
 
         return self.hexes[coords]
 

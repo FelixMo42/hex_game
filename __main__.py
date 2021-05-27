@@ -6,8 +6,7 @@ from src.hex import FloorHex
 class GameWindow(pyglet.window.Window) :
     """A window, with the game in it."""
 
-    # Create the game world.
-    world = Map(100, 100)
+    map = Map(100, 100)
 
     def on_draw(self) :
         """Called whenever a new frame needs to get drawn."""
@@ -27,6 +26,9 @@ class GameWindow(pyglet.window.Window) :
                 self.width / 2,
                 self.height / 2
             ),
+
+            # Pass in the map we want to draw.
+            map = self.map,
 
             # Pass in the batch so that the commands can be added to it.
             batch = batch

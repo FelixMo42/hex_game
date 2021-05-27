@@ -3,7 +3,7 @@ from .polydraw import draw_regular_polygon
 
 sqrt3 = sqrt(3)
 
-def axial_to_pixel(cord, radius=60):
+def cord_to_pixel(cord, radius):
     """Convert axial hex cords to pixel cords."""
     
     # unpack the axial cordinate
@@ -15,12 +15,13 @@ def axial_to_pixel(cord, radius=60):
         int(radius * (                3 / 2 * r))
     )
 
-def draw_hex(cord, color, radius=60, batch=None):
+def draw_hex(cord, color, radius, batch):
     """Draw a hexagon centered at the given set of axial cordinates."""
 
+
     draw_regular_polygon(
-        # Convert the axial cordinates to a pixel position.
-        cord = axial_to_pixel(cord, radius),
+        # Convert the hex cordinates to a pixel position.
+        cord = cord_to_pixel(cord, radius),
 
         # Add 1 to the radius so that there isent a gap bettween the hexs.
         radius = radius + 1,
@@ -34,8 +35,8 @@ def draw_hex(cord, color, radius=60, batch=None):
         # A hexagon is a polygon of degree 6
         degree = 6
     )
-
-def draw_hex_grid(size, batch) :
+    
+def draw_hex_grid(size, map, batch) :
     """Draws a hex grid of given pixel size."""
     
     # Radius of hexs.
@@ -50,20 +51,12 @@ def draw_hex_grid(size, batch) :
     # Draw the grid of hexs.
     for x in range(0, int(size[0] / hex_width) + 2) :
         for y in range(0, int(size[1] / hex_height) + 2) :
-            draw_hex(
-                # The iterator is in odd row cords, so we need to convert to 
-                # axial cords.
-                # https://www.redblobgames.com/grids/hexagons/#coordinates 
-                cord = (
-                    x - (y - (y & 1)) / 2,
-                    y
-                ),
-
-                # Give the hex a nice unique color. 
-                color  = (x * 30 + 60, y * 30 + 60, 12),
-
-                # Pass in the rest of the variables as is.
-                batch  = batch,
-                radius = radius
+            # The iterator is in odd row cords, so we need to convert to cords.
+            # https://www.redblobgames.com/grids/hexagons/#coordinates 
+            cord = (
+                int(x - (y - (y & 1)) / 2),
+                int(y)
             )
 
+            # Draw the hex
+            draw_hex(cord, map.get_hex(cord).color, radius, batch)

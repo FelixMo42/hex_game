@@ -1,5 +1,5 @@
 # Stores the attributes of hex tiles as part of the logic of the game
-# Does NOT deal with drawing
+
 class Hex:
     """ The superclass that all types of hex inherit from.
     This structure is somewhat reminiscent of the 61a ants project;
@@ -51,6 +51,7 @@ class LockedHex(Hex):
 
     color = (100, 100, 100)
     destroyable = False
+
     def __init__(self, *args, **kwargs):
         super(*args, **kwargs)
 
