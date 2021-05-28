@@ -1,8 +1,10 @@
 from .hex import WallHex, FloorHex
-from os.path import exists
+from .player import *
 import pickle
 
+# Paramaters/constants we can tweak
 mapsave_file = 'mapsave'
+player_start = (-2, 2)
 
 class Map:
     """ A Map object stores all the hexes in it, as well
@@ -19,10 +21,15 @@ class Map:
         self.width, self.height = width, height
         self.hexes = {}
         self.entities = {}
+        
         for x in range(width):
             for y in range(height):
                 self.hexes[(x, y)] = WallHex()
-                
+        
+        # Create and place the player
+        self.player = Player(player_start)
+        self.place_entity(player_start, self.player)
+        
     def get_hex(self, cord):
         if cord not in self.hexes:
             # Return a FloorHex for now, loading from file was mentioned
@@ -33,16 +40,22 @@ class Map:
     def set_hex(self, cord, hex_obj):
         self.hexes[cord] = hex_obj
 
-    def move_entity(self, cord, entity):
-        """ Move an entity from its previous location to cord
+    def place_entity(self, cord, entity):
+        """ Place entity at cord, updating entities map and entity's coords
         """
         hex_obj = self.get_hex(cord)
-        old_cord = entity.cord
         if hex_obj.is_walkable():
             self.entities[cord] = entity
             entity.cord = cord
             hex_obj.walkable = False
-            self.entities[old_cord] = None
+        
+    def move_entity(self, cord, entity):
+        """ Move an entity from its previous location to cord
+        """
+        old_cord = entity.cord
+        self.place_entity(cord, entity)
+        self.entities[old_cord] = None
+        
     
     def pickle_map(self):
         """ Serialize the entire game state by serializing the Map

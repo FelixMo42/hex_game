@@ -35,3 +35,6 @@ class NPC:
             return "Cannot interact with locked NPC"
     def unlock(self):
         self.unlocked = True
+
+class Destroyer(NPC):
+    """ Destroys the player"""
