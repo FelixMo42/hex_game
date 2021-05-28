@@ -1,3 +1,7 @@
+# Manually specified project files
+mapsave
+src/mapsave
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

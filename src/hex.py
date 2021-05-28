@@ -13,11 +13,20 @@ class Hex:
         self.walkable = True
         self.destroyed = False
         
-        # What (NPC, player, or even object) is there. Impacts walkability
-        self.occupant = None
-        
     def is_walkable(self):
         return self.walkable
+        
+    def destroy(self):
+        """ Destroy the hex. If it wasn't walkable before, it becomes walkable.
+        If it was walkable before, it becomes unwalkable (like a void)
+        """
+        if self.destroyable and not self.destroyed:
+            self.destroyed = True
+            self.walkable = not self.walkable
+            if self.walkable:
+                self.color = (6, 133,39)
+            else:
+                self.color = (0, 0, 0)
 
 class WallHex(Hex):
     color = (110, 48, 48)

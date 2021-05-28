@@ -1,5 +1,6 @@
 from .hex import WallHex, FloorHex
 from os.path import exists
+import pickle
 
 mapsave_file = 'mapsave'
 
@@ -47,7 +48,7 @@ class Map:
         """ Serialize the entire game state by serializing the Map
         since it contains the tiles, entities, etc.
         """
-        outfile = open(gamesave_file, 'wb')
+        outfile = open(mapsave_file, 'wb')
         pickle.dump(self, outfile)
         outfile.close()
         
@@ -56,7 +57,7 @@ def load_or_new():
     If it does, read the Map object from gamesave file, and return it
     """
     if exists(mapsave_file):
-        infile = open(gamesave_file, 'rb')
+        infile = open(mapsave_file, 'rb')
         map_obj = pickle.load(infile)
         infile.close()
     else:
