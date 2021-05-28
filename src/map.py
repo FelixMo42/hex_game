@@ -53,13 +53,13 @@ class Map:
         outfile.close()
         
 def load_or_new():
-    """ If gamesave file does not exist, continue with new map
-    If it does, read the Map object from gamesave file, and return it
+    """ If can't load mapsave file, return new map
+    If it does, read the Map object from save file, and return it
     """
-    if exists(mapsave_file):
+    try:
         infile = open(mapsave_file, 'rb')
         map_obj = pickle.load(infile)
         infile.close()
-    else:
+    except:
         map_obj = Map(100, 100)
     return map_obj
