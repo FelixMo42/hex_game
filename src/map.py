@@ -1,4 +1,7 @@
 from .hex import WallHex, FloorHex
+from os.path import exists
+
+mapsave_file = 'mapsave'
 
 class Map:
     """ A Map object stores all the hexes in it, as well
@@ -39,3 +42,23 @@ class Map:
             entity.cord = cord
             hex_obj.walkable = False
             self.entities[old_cord] = None
+    
+    def pickle_map(self):
+        """ Serialize the entire game state by serializing the Map
+        since it contains the tiles, entities, etc.
+        """
+        outfile = open(gamesave_file, 'wb')
+        pickle.dump(self, outfile)
+        outfile.close()
+        
+def load_or_new():
+    """ If gamesave file does not exist, continue with new map
+    If it does, read the Map object from gamesave file, and return it
+    """
+    if exists(mapsave_file):
+        infile = open(gamesave_file, 'rb')
+        map_obj = pickle.load(infile)
+        infile.close()
+    else:
+        map_obj = Map(100, 100)
+    return map_obj

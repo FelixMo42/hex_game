@@ -1,12 +1,14 @@
 import pyglet
 from src.hexdraw import draw_hex_grid, pixel_to_cord
-from src.map import Map
+from src.map import Map, load_or_new
 from src.hex import FloorHex, LockedHex
+import pickle
 
 class GameWindow(pyglet.window.Window) :
     """A window, with the game in it."""
 
-    map = Map(100, 100)
+    # If a save already exists, load it, otherwise return new 100x100 map
+    map = load_or_new()
 
     radius = 60
 
@@ -56,7 +58,7 @@ class GameWindow(pyglet.window.Window) :
         # Make the clicked on tile a LockedHex.
         self.map.set_hex(cord, LockedHex())
 
-        
+
 
 if __name__ == '__main__' :
     # Initlize the game window.
@@ -64,3 +66,4 @@ if __name__ == '__main__' :
 
     # Start the actuall game.
     pyglet.app.run()
+    
