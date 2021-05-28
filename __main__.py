@@ -48,9 +48,9 @@ class GameWindow(pyglet.window.Window) :
         """Called whenever a key is pressed."""
 
         if key == pyglet.window.key.S:
-            GameWindow.map.pickle_map()
+            self.map.pickle_map()
         elif key == pyglet.window.key.N:
-            GameWindow.map = Map(100, 100) 
+            self.map = Map(100, 100) 
 
     def on_mouse_press(self, x, y, button, mod) :
         """Called whenever the mouse is clicked."""
