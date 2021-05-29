@@ -50,7 +50,12 @@ class GameWindow(pyglet.window.Window) :
         if key == pyglet.window.key.S:
             self.map.pickle_map()
         elif key == pyglet.window.key.N:
-            self.map = Map(100, 100) 
+            self.map = Map(100, 100)
+        elif key == pyglet.window.key.D:
+            self.map.move_entity_right(self.map.player)
+        elif key == pyglet.window.key.A:
+            self.map.move_entity_left(self.map.player)
+        print("Player cord: " + str(self.map.player.cord))
 
     def on_mouse_press(self, x, y, button, mod) :
         """Called whenever the mouse is clicked."""
@@ -58,9 +63,8 @@ class GameWindow(pyglet.window.Window) :
         # Get the hex that was clicked on.
         cord = pixel_to_cord((x, y), self.radius)
 
-        # Make the clicked on tile a LockedHex.
+        # Destroy the clicked tile >:)
         self.map.get_hex(cord).destroy()
-        # self.map.set_hex(cord, LockedHex())
 
 
 

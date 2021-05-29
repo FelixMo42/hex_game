@@ -73,6 +73,9 @@ def draw_hex(cord, color, radius, batch):
         degree = 6
     )
     
+def draw_entity(cord, color, radius, batch):
+    draw_regular_polygon(cord_to_pixel(cord, 60), 4, color, radius, batch)
+    
 def draw_hex_grid(size, map, radius, batch) :
     """Draws a hex grid of given pixel size."""
     
@@ -94,3 +97,7 @@ def draw_hex_grid(size, map, radius, batch) :
             
             # Draw the hex
             draw_hex(cord, map.get_hex(cord).color, radius, batch)
+            # print("Drawing cord " + str(cord) + " which is " + str(map.get_hex(cord)))
+            if map.get_entity(cord) != None:
+                print("Drawing entity at " + str(cord))
+                draw_entity(cord, map.get_entity(cord).color, 10, batch)

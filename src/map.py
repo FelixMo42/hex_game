@@ -4,7 +4,7 @@ import pickle
 
 # Paramaters/constants we can tweak
 mapsave_file = 'mapsave'
-player_start = (-2, 2)
+player_start = (-1, 4)
 
 class Map:
     """ A Map object stores all the hexes in it, as well
@@ -40,22 +40,38 @@ class Map:
     def set_hex(self, cord, hex_obj):
         self.hexes[cord] = hex_obj
 
+    def get_entity(self, cord):
+        if cord not in self.entities:
+            return None
+        return self.entities[cord]
+        
     def place_entity(self, cord, entity):
         """ Place entity at cord, updating entities map and entity's coords
+        Returns TRUE if the entity was placed, FALSE if not walkable
         """
         hex_obj = self.get_hex(cord)
         if hex_obj.is_walkable():
             self.entities[cord] = entity
             entity.cord = cord
             hex_obj.walkable = False
+            return True
+        else:
+            return False
         
     def move_entity(self, cord, entity):
         """ Move an entity from its previous location to cord
         """
         old_cord = entity.cord
-        self.place_entity(cord, entity)
-        self.entities[old_cord] = None
-        
+        if self.place_entity(cord, entity):
+            self.entities[old_cord] = None
+            self.get_hex(old_cord).walkable = True
+    
+    def move_entity_right(self, entity):
+        new_cord = (entity.cord[0] + 1, entity.cord[1])
+        self.move_entity(new_cord, entity)
+    def move_entity_left(self, entity):
+        new_cord = (entity.cord[0] - 1, entity.cord[1])
+        self.move_entity(new_cord, entity)
     
     def pickle_map(self):
         """ Serialize the entire game state by serializing the Map

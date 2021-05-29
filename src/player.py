@@ -1,4 +1,6 @@
 class Player:
+    color = (0, 0, 255)
+    
     def __init__(self, start_cord):
         self.cord = start_cord
         self.health = 1.00
@@ -16,6 +18,8 @@ class NPC:
     Lines is a list of strings that the NPC will say, in order.
     NPC should have an image that is displayed.
     """
+    color = (100, 0, 177)
+    
     def __init__(self, lines, image, start_cord):
         self.lines, self.image = lines, image
         self.cord = start_cord
