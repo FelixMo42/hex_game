@@ -75,19 +75,28 @@ def draw_hex(cord, color, radius, batch):
     
 def draw_entity(cord, color, radius, batch):
     draw_regular_polygon(cord_to_pixel(cord, 60), 4, color, radius, batch)
-    
-def draw_hex_grid(size, map, radius, batch) :
-    """Draws a hex grid of given pixel size."""
-    
-    # The hex width and height are the pixel per hex on the screen so
-    # that we can figure out many hexes are needed to fill the screen.
-    # https://www.omnicalculator.com/math/hexagon
-    hex_width  = 51.96
-    hex_height = radius / 2 + radius / 2 * sin(30 / 180 * pi)
+   
+def axial_to_oddr(cord):
+    (x, y) = cord
 
+    return (
+        int(x + (y - (y&1)) / 2),
+        y
+    )
+
+def draw_hex_grid(area, map, radius, batch):
+    """Draws a hex grid of given pixel size."""
+
+    # The endpoints of the area.
+    (a, b) = area
+
+    # Convert endpoints to offr hex cords.
+    (sx, sy) = axial_to_oddr(pixel_to_cord(a, radius))
+    (ex, ey) = axial_to_oddr(pixel_to_cord(b, radius))
+    
     # Draw the grid of hexs.
-    for x in range(0, int(size[0] / hex_width) + 2) :
-        for y in range(0, int(size[1] / hex_height) + 2) :
+    for x in range(sx - 1, ex + 2):
+        for y in range(sy - 1, ey + 2):
             # The iterator is in odd row cords, so we need to convert to cords.
             # https://www.redblobgames.com/grids/hexagons/#coordinates 
             cord = (
@@ -99,5 +108,5 @@ def draw_hex_grid(size, map, radius, batch) :
             draw_hex(cord, map.get_hex(cord).color, radius, batch)
             # print("Drawing cord " + str(cord) + " which is " + str(map.get_hex(cord)))
             if map.get_entity(cord) != None:
-                print("Drawing entity at " + str(cord))
+                # print("Drawing entity at " + str(cord))
                 draw_entity(cord, map.get_entity(cord).color, 10, batch)

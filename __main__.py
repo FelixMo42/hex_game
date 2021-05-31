@@ -1,4 +1,5 @@
 import pyglet
+from src.camera import Camera 
 from src.hexdraw import draw_hex_grid, pixel_to_cord
 from src.map import Map, load_or_new
 from src.hex import FloorHex, LockedHex
@@ -10,7 +11,11 @@ class GameWindow(pyglet.window.Window) :
     # If a save already exists, load it, otherwise return new 100x100 map
     map = load_or_new()
 
+    # Radius of hexagons.
     radius = 60
+
+    # Create a camera.
+    camera = Camera()
 
     def on_draw(self) :
         """Called whenever a new frame needs to get drawn."""
@@ -18,32 +23,18 @@ class GameWindow(pyglet.window.Window) :
         # Make sure there is no trace of privous stuff left behind.
         self.clear()
 
-        # Batchs are a group of opengl commands that will
-        # be sent to the gpu to be rendered.
-        batch = pyglet.graphics.Batch()
+        # Apply the camera offset
+        with self.camera:
+            # Batchs are a group of opengl commands
+            batch = pyglet.graphics.Batch()
 
-        # Draw the floor hex grid
-        draw_hex_grid(
-            # The size of the grid should just be the size of the screen.
-            # The width and height are doubled for some reason.
-            size = (
-                self.width / 2,
-                self.height / 2
-            ),
+            # Draw the floor hex grid
+            draw_hex_grid(self.camera.area(self.get_size()), self.map, self.radius, batch)
 
-            # Pass in the map we want to draw.
-            map = self.map,
+            # Send the batch to the gpu to get rendered.
+            batch.draw()
 
-            # Radius of hexagon.
-            radius = self.radius,
 
-            # Pass in the batch so that the commands can be added to it.
-            batch = batch
-        )
-
-        # Send the batch to the gpu to get rendered.
-        batch.draw()
-    
     def on_key_press(self, key, mod) :
         """Called whenever a key is pressed."""
 
@@ -55,18 +46,33 @@ class GameWindow(pyglet.window.Window) :
             self.map.move_entity_right(self.map.player)
         elif key == pyglet.window.key.A:
             self.map.move_entity_left(self.map.player)
+
         print("Player cord: " + str(self.map.player.cord))
 
-    def on_mouse_press(self, x, y, button, mod) :
-        """Called whenever the mouse is clicked."""
+    def on_mouse_press(self, x, y, button, mod):
+        """Called whenever the mouse is pressed."""
 
+        # Keep track of where the drag started.
+        # Used to see if click is drag or a simple press.
+        self.drag_start = (x, y)
+
+    def on_mouse_release(self, x, y, button, mod):
+        """Called whenever the mouse is released."""
+
+        # If this is the end of a drag, then dont do anything.
+        if self.drag_start != (x, y) :
+            return
+        
         # Get the hex that was clicked on.
-        cord = pixel_to_cord((x, y), self.radius)
+        cord = pixel_to_cord( self.camera.screen_to_world_position(x, y), self.radius )
 
         # Destroy the clicked tile >:)
         self.map.get_hex(cord).destroy()
 
+    def on_mouse_drag(self, x, y, dx, dy, buttons, modifiers) :
+        """Called when mouse is dragged."""
 
+        self.camera.shift(dx, dy)
 
 if __name__ == '__main__' :
     # Initlize the game window.
