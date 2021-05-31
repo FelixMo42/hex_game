@@ -22,8 +22,8 @@ class Camera:
 
     def screen_to_world_position(self, x, y) :
         return (
-            x - self.offset_x,
-            y - self.offset_y
+            x + self.offset_x,
+            y + self.offset_y
         )
 
     def __enter__(self):
