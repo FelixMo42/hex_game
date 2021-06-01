@@ -17,25 +17,28 @@ class GameWindow(pyglet.window.Window) :
     # Create a camera.
     camera = Camera()
 
-    def on_draw(self) :
+    def on_draw(self):
         """Called whenever a new frame needs to get drawn."""
         
         # Make sure there is no trace of privous stuff left behind.
         self.clear()
 
-        # Apply the camera offset
+        # Make the camera fill up the screen.
+        self.camera.size = self.get_size()
+
+        # Apply the camera offset.
         with self.camera:
             # Batchs are a group of opengl commands
             batch = pyglet.graphics.Batch()
 
             # Draw the floor hex grid
-            draw_hex_grid(self.camera.area(self.get_size()), self.map, self.radius, batch)
+            draw_hex_grid(self.camera.area(), self.map, self.radius, batch)
 
             # Send the batch to the gpu to get rendered.
             batch.draw()
 
 
-    def on_key_press(self, key, mod) :
+    def on_key_press(self, key, mod):
         """Called whenever a key is pressed."""
 
         if key == pyglet.window.key.S:
@@ -60,7 +63,7 @@ class GameWindow(pyglet.window.Window) :
         """Called whenever the mouse is released."""
 
         # If this is the end of a drag, then dont do anything.
-        if self.drag_start != (x, y) :
+        if self.drag_start != (x, y):
             return
         
         # Get the hex that was clicked on.
@@ -69,10 +72,16 @@ class GameWindow(pyglet.window.Window) :
         # Destroy the clicked tile >:)
         self.map.get_hex(cord).destroy()
 
-    def on_mouse_drag(self, x, y, dx, dy, buttons, modifiers) :
+    def on_mouse_drag(self, x, y, dx, dy, buttons, modifiers):
         """Called when mouse is dragged."""
 
         self.camera.shift(dx, dy)
+
+    def on_mouse_scroll(self, x, y, scroll_x, scroll_y):
+        """Called when scroll."""
+
+        self.camera.zoom(scroll_y)
+
 
 if __name__ == '__main__' :
     # Initlize the game window.
