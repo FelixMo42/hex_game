@@ -1,6 +1,5 @@
 import pyglet
-from .camera import Camera
-from .polydraw import draw_polygon
+from src.polydraw import draw_polygon
 
 def is_over_button(button, x, y):
     """Cheacks if the given (x, y) is over the button."""
@@ -11,24 +10,8 @@ def is_over_button(button, x, y):
     )
 
 class Gui:
-    def __init__(self, buttons):
-        self.buttons = [] 
-        
-        x = 0
-
-        for (name, func) in buttons :
-            button = pyglet.text.Label(
-                " " + name + " ",
-                anchor_y="top",
-                anchor_x="left",
-                x = x
-            )
-
-            button.func = func
-
-            self.buttons.append(button)
-
-            x += button.content_width
+    x = 0
+    buttons = []
 
     def draw(self, mouse_pos):
         """Draw the gui given thecurrent mouse position."""
@@ -70,7 +53,26 @@ class Gui:
     def is_over(self, mouse_pos):
         """Returns true if mouse is over the gui."""
 
-        return mouse_pos[1] >= self.size[1] - self.buttons[0].content_height - 3
+        return False
+
+    def button(self, name):
+        def decorator(func):
+            button = pyglet.text.Label(
+                " " + name + " ",
+                anchor_y="top",
+                anchor_x="left",
+                x = self.x
+            )
+
+            button.func = func
+
+            self.buttons.append(button)
+
+            self.x += button.content_width
+            
+            return lambda func: func
+
+        return decorator
 
     def click(self, game):
         """Click that gui."""
