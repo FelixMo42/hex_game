@@ -17,3 +17,7 @@ Start with one main character that you can control in a dark, creepy world with 
 You'll need the Pyglet game library: `pip install pyglet --user`
 
 To run the game, you can simply cd to this `hex_game` directory and run `python3 ./`
+
+## Keyboard Shortcuts
+
+- N: create a new world and start over, as opposed to the saved state that was loaded by default.
