@@ -69,7 +69,7 @@ class Gui:
     def is_over(self, mouse_pos):
         """Returns true if mouse is over the gui."""
 
-        return mouse_pos[1] >= self.size[1] - self.buttons[0].content_height - 3
+        return False
 
     def click(self, game):
         """Click that gui."""

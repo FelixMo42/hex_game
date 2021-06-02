@@ -11,15 +11,15 @@ class Mouse:
 
         self.position = (x, y)
 
-    def drag_start(self, x, y):
-        """Called to triger the start of a drag."""
+    def drag_start(self):
+        """Called to trigger the start of a drag."""
 
-        self.drag_start_pos = (x, y)
+        self.drag_start_pos = self.position
 
-    def drag_end(self, x, y):
+    def drag_end(self):
         """Called to potentially end a drag. Returns true if it was a drag."""
 
-        was_drag = self.drag_start_pos != None and self.drag_start_pos != (x, y)
+        was_drag = self.drag_start_pos != None and self.drag_start_pos != self.position
 
         # Clear the drag.
         self.drag_start_pos = None
