@@ -10,30 +10,23 @@ def regular_polygon_vertices(cord, degree, radius=60) :
             int(radius * sin((pi/degree) * (1 + 2 * i))) + cord[1]
         )
 
-def regular_polygon_mesh_vertices(cord, degree, radius=60) :
+def vertices_mesh(vertices) :
     """An iterator for the pixel cords of the vertices
     in a triangle mesh of the given polygon."""
 
-    # Get all the vertices of the polygon.
-    vertices = list(regular_polygon_vertices(cord, degree, radius))
-
     # Yield the cordinates for each triangle.
-    for i in range(1, degree - 1) : 
+    for i in range(1, len(vertices) - 1) : 
         yield from vertices[0]
         yield from vertices[i + 0]
         yield from vertices[i + 1]
 
-def draw_regular_polygon(cord, degree, color, radius, batch) :
-    """Draw a regular polygon centered at cord of given color and radius."""
+def draw_polygon(vertices, color, batch):
+    # Number of vertices is the number of vertices in the triangles needed to make a the shape.
+    num_vertices = (len(vertices) - 2) * 3
 
-    # Number of vertices is the number of triangles needed to make a 
-    # hexagon times the number of vertices in a triangl.
-    vertices = (degree - 2) * 3
-
-    # Add the polygon to the batch.
-    polygon = batch.add(
+    return batch.add(
         # Tell the batch how many vertices we want to add.
-        vertices,
+        num_vertices,
 
         # Tell openGl to use polygon mode to draw the vertices.
         pyglet.gl.GL_TRIANGLES,
@@ -42,9 +35,16 @@ def draw_regular_polygon(cord, degree, color, radius, batch) :
         None,
 
         # The position of the vertices of the polygon.
-        ('v2i', list(regular_polygon_mesh_vertices(cord, degree, radius))),
+        ('v2i', list(vertices_mesh(vertices))),
 
         # The color of each vertex.
-        ('c3B', color * vertices)
+        ('c3B', color * num_vertices) 
     )
 
+def draw_regular_polygon(cord, degree, color, radius, batch) :
+    """Draw a regular polygon centered at cord of given color and radius."""
+    
+    return draw_polygon(
+        list(regular_polygon_vertices(cord, degree, radius)),
+        color, batch
+    )

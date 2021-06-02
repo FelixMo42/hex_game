@@ -1,8 +1,10 @@
 import pyglet
+from pyglet.gl import *
 from src.camera import Camera 
 from src.hexdraw import draw_hex_grid, pixel_to_cord
 from src.map import Map, load_or_new
 from src.hex import FloorHex, LockedHex
+from src.gui import Gui
 import pickle
 
 class GameWindow(pyglet.window.Window) :
@@ -17,13 +19,15 @@ class GameWindow(pyglet.window.Window) :
     # Create a camera.
     camera = Camera()
 
+    # Create a gui.
+    gui = Gui()
+
     def on_draw(self):
         """Called whenever a new frame needs to get drawn."""
         
         # Make sure there is no trace of privous stuff left behind.
         self.clear()
 
-        # Make the camera fill up the screen.
         self.camera.size = self.get_size()
 
         # Apply the camera offset.
@@ -37,6 +41,8 @@ class GameWindow(pyglet.window.Window) :
             # Send the batch to the gpu to get rendered.
             batch.draw()
 
+        # Draw the gui on top of the game.
+        self.gui.draw()
 
     def on_key_press(self, key, mod):
         """Called whenever a key is pressed."""
@@ -82,7 +88,16 @@ class GameWindow(pyglet.window.Window) :
 
         self.camera.zoom(scroll_y)
 
+    def on_resize(self, width, height):
+        """Called when window is resized."""
 
+        # Update the size of components that needs the size of the screen.
+        self.camera.size = self.get_size()
+        self.gui.size = self.get_size()
+
+        # Pyglet requires we call the default resize method.
+        return super().on_resize(width, height)
+        
 if __name__ == '__main__' :
     # Initlize the game window.
     GameWindow(800, 600, resizable=True)
