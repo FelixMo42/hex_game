@@ -1,5 +1,5 @@
 import pyglet
-from .hexdraw import draw_hex_grid, pixel_to_cord
+from src.hexdraw import draw_hex_grid, pixel_to_cord
 
 class Camera:
     zoom_factor = 1

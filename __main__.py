@@ -1,12 +1,19 @@
 import pyglet
 from pyglet.gl import *
-from src.camera import Camera 
+
+from src.gui.camera import Camera 
+from src.gui.mouse import Mouse
+from src.gui.gui import Gui
+
 from src.hexdraw import draw_hex_grid, pixel_to_cord
-from src.mouse import Mouse
 from src.map import Map, load_or_new
 from src.hex import FloorHex, LockedHex
-from src.gui import Gui
 import pickle
+
+import sys
+
+# Make so that all files can import from src
+sys.path.insert(1, './')
 
 class GameWindow(pyglet.window.Window) :
     """A window, with the game in it."""

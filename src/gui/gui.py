@@ -1,6 +1,5 @@
 import pyglet
-from .camera import Camera
-from .polydraw import draw_polygon
+from src.polydraw import draw_polygon
 
 def is_over_button(button, x, y):
     """Cheacks if the given (x, y) is over the button."""
