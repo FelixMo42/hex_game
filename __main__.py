@@ -2,6 +2,7 @@ import pyglet
 from pyglet.gl import *
 from src.camera import Camera 
 from src.hexdraw import draw_hex_grid, pixel_to_cord
+from src.mouse import Mouse
 from src.map import Map, load_or_new
 from src.hex import FloorHex, LockedHex
 from src.gui import Gui
@@ -21,6 +22,9 @@ class GameWindow(pyglet.window.Window) :
 
     # Create a gui.
     gui = Gui()
+
+    # Keeps track of mouse information
+    mouse = Mouse()
 
     def on_draw(self):
         """Called whenever a new frame needs to get drawn."""
@@ -63,13 +67,13 @@ class GameWindow(pyglet.window.Window) :
 
         # Keep track of where the drag started.
         # Used to see if click is drag or a simple press.
-        self.drag_start = (x, y)
+        self.mouse.drag_start(x, y)
 
     def on_mouse_release(self, x, y, button, mod):
         """Called whenever the mouse is released."""
 
         # If this is the end of a drag, then dont do anything.
-        if self.drag_start != (x, y):
+        if self.mouse.drag_end(x, y):
             return
         
         # Get the hex that was clicked on.
@@ -82,6 +86,11 @@ class GameWindow(pyglet.window.Window) :
         """Called when mouse is dragged."""
 
         self.camera.shift(dx, dy)
+
+    def on_mouse_motion(self, x, y, dx, dy):
+        """Called when the mouse is moved."""
+
+        self.mouse.mouse_pos(x, y)
 
     def on_mouse_scroll(self, x, y, scroll_x, scroll_y):
         """Called when scroll."""
