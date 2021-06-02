@@ -6,19 +6,28 @@ from pyglet.gl import *
 from src.hexdraw import draw_hex_grid, pixel_to_cord
 from src.map import Map, load_or_new
 from src.hex import FloorHex, LockedHex
-from src.gui import camera, gui, mouse
+from src.gui.camera import Camera
+from src.gui.mouse import Mouse
+from src.gui.gui import Gui
 
-class GameWindowInfo():
-    camera = camera.Camera()
-    mouse  = mouse.Mouse() 
-    gui    = gui.Gui([("hi", lambda s: s)])
-
-class Game(GameWindowInfo):
+class Game():
     # If a save already exists, load it, otherwise return new 100x100 map
     map = load_or_new()
 
     # Radius of hexagons.
     radius = 60
+
+    camera = Camera()
+    mouse  = Mouse() 
+    gui    = Gui()
+
+    ##################
+    # User Interface #
+    ##################
+    
+    @gui.button("save")
+    def save(self):
+        self.map.pickle_map()
 
     #################
     # Window Events #
@@ -63,7 +72,7 @@ class Game(GameWindowInfo):
 
     def on_key_release(self, key, mod):
         if key == pyglet.window.key.S:
-            self.map.pickle_map()
+            self.save()
         elif key == pyglet.window.key.N:
             self.map = Map(100, 100)
         elif key == pyglet.window.key.D:

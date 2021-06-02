@@ -16,10 +16,12 @@ class GameWindow(Window):
         self.game.on_draw()
 
         # Then draw the gui on top.
-        self.game.gui.draw(self.mouse.position)
+        self.game.gui.draw(self.game.mouse.position)
 
     def on_resize(self, width, height):
         self.game.size = (width, height)
+
+        self.game.gui.size = self.game.size
 
         self.game.on_resize()
 

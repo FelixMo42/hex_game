@@ -1,15 +1,9 @@
 class Mouse:
-
     # Start the mouse off the screen so that it shouldnt be on top of anything
     position = (-1, -1)
 
     # Start off not draggin
     drag_start_pos = None
-
-    def set_mouse_pos(self, x, y):
-        """Set the mouse position."""
-
-        self.position = (x, y)
 
     def drag_start(self):
         """Called to trigger the start of a drag."""
