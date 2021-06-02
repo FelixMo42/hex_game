@@ -21,10 +21,16 @@ class GameWindow(pyglet.window.Window) :
     camera = Camera()
 
     # Create a gui.
-    gui = Gui()
+    gui = Gui([
+        ("testing", lambda self: print("hellya!")),
+        ("bla", lambda self: self.do_this_thing_when_clicked())
+    ])
 
     # Keeps track of mouse information
     mouse = Mouse()
+
+    def do_this_thing_when_clicked(self):
+        print("bla")
 
     def on_draw(self):
         """Called whenever a new frame needs to get drawn."""
@@ -46,7 +52,7 @@ class GameWindow(pyglet.window.Window) :
             batch.draw()
 
         # Draw the gui on top of the game.
-        self.gui.draw()
+        self.gui.draw(self.mouse.position)
 
     def on_key_press(self, key, mod):
         """Called whenever a key is pressed."""
@@ -65,9 +71,10 @@ class GameWindow(pyglet.window.Window) :
     def on_mouse_press(self, x, y, button, mod):
         """Called whenever the mouse is pressed."""
 
-        # Keep track of where the drag started.
+        # Only register a drag start if mouse is not over the gui. 
         # Used to see if click is drag or a simple press.
-        self.mouse.drag_start(x, y)
+        if not self.gui.is_over((x, y)):
+            self.mouse.drag_start(x, y)
 
     def on_mouse_release(self, x, y, button, mod):
         """Called whenever the mouse is released."""
@@ -75,22 +82,34 @@ class GameWindow(pyglet.window.Window) :
         # If this is the end of a drag, then dont do anything.
         if self.mouse.drag_end(x, y):
             return
-        
-        # Get the hex that was clicked on.
-        cord = pixel_to_cord( self.camera.screen_to_world_position(x, y), self.radius )
 
-        # Destroy the clicked tile >:)
-        self.map.get_hex(cord).destroy()
+        if self.gui.is_over((x, y)):
+            self.gui.click(self)
+
+        else:
+            # Get the hex that was clicked on.
+            cord = pixel_to_cord( self.camera.screen_to_world_position(x, y), self.radius )
+
+            # Destroy the clicked tile >:)
+            self.map.get_hex(cord).destroy()
 
     def on_mouse_drag(self, x, y, dx, dy, buttons, modifiers):
         """Called when mouse is dragged."""
 
+        # We still want to update the mouse position when dragging.
+        self.mouse.set_mouse_pos(x, y)
+
+        # If the drag was never triggered using mouse.start_drag, then we should bail.
+        if not self.mouse.is_drag():
+            return
+
+        # Camera go weeeeeee!
         self.camera.shift(dx, dy)
 
     def on_mouse_motion(self, x, y, dx, dy):
-        """Called when the mouse is moved."""
+        """Called when the mouse is moved, but not pressed."""
 
-        self.mouse.mouse_pos(x, y)
+        self.mouse.set_mouse_pos(x, y)
 
     def on_mouse_scroll(self, x, y, scroll_x, scroll_y):
         """Called when scroll."""
