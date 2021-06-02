@@ -2,10 +2,18 @@
 TODO: find a better name
 
 ## Game Idea
-Start with one main character that you can control in a dark world with a single light. Do some stuff and befriend some people to expand the influence of the light and get more friends you can play with. At the end escape using the power of friendship or something.
+
+Start with one main character that you can control in a dark, creepy world with a single light. Do some stuff and befriend some people to expand the influence of the light (while avoiding obstacles that can kill you) and get more friends you can play with. At the end escape using the power of friendship or something.
 
 ## Desired Elements
+
 * Unlockable characters with stories of their own, characters interact and form relationships
 * Some sort of choose-your-own-adventure style interactivity
 * Build a base
+* *Some* graphically rich elements, such as images that pop up when you hover over an object or tile. These could be pictures of objects or snapshots of what your environment looks like.
 
+## Running/testing
+
+You'll need the Pyglet game library: `pip install pyglet --user`
+
+To run the game, you can simply cd to this `hex_game` directory and run `python3 ./`
