@@ -60,7 +60,7 @@ def draw_hex(cord, color, radius, batch):
         # Convert the hex cordinates to a pixel position.
         cord = cord_to_pixel(cord, radius),
 
-        # Add 1 to the radius so that there isent a gap bettween the hexs.
+        # Add 1 to the radius so that there isent a gap bettween the hexes.
         radius = radius + 1,
 
         # Pass on the color.
@@ -94,7 +94,7 @@ def draw_hex_grid(area, map, radius, batch):
     (sx, sy) = axial_to_oddr(pixel_to_cord(a, radius))
     (ex, ey) = axial_to_oddr(pixel_to_cord(b, radius))
     
-    # Draw the grid of hexs.
+    # Draw the grid of hexes.
     for x in range(sx - 1, ex + 2):
         for y in range(sy - 1, ey + 2):
             # The iterator is in odd row cords, so we need to convert to cords.

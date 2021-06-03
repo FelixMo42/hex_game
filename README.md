@@ -21,3 +21,8 @@ To run the game, you can simply cd to this `hex_game` directory and run `python3
 ## Keyboard Shortcuts
 
 - N: create a new world and start over, as opposed to the saved state that was loaded by default.
+- S: Keyboard shortcut to save the current state (will probably be changed in the future)
+
+## Moving Around
+
+Movement will be via mouse, although A and D keys are currently able to move player left and right, they will be disabled once mouse movement is enabled.
