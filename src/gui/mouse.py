@@ -13,7 +13,7 @@ class Mouse:
     def drag_end(self):
         """Called to potentially end a drag. Returns true if it was a drag."""
 
-        was_drag = self.drag_start_pos != None and self.drag_start_pos != self.position
+        was_drag = self.drag_start_pos != self.position
 
         # Clear the drag.
         self.drag_start_pos = None

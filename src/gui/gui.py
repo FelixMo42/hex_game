@@ -53,7 +53,7 @@ class Gui:
     def is_over(self, mouse_pos):
         """Returns true if mouse is over the gui."""
 
-        return False
+        return mouse_pos[1] >= self.size[1] - self.buttons[0].content_height - 3
 
     def button(self, name):
         def decorator(func):
@@ -70,7 +70,7 @@ class Gui:
 
             self.x += button.content_width
             
-            return lambda func: func
+            return func
 
         return decorator
 

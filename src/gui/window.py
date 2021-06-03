@@ -33,15 +33,18 @@ class GameWindow(Window):
     ################
 
     def on_mouse_press(self, x, y, button, mod):
-        # Only register a drag start if mouse is not over the gui. 
+        # Register that the mouse has potentially started dragging.
         # Used to see if click is drag or a simple press.
-        if not self.game.gui.is_over((x, y)):
-            self.game.mouse.drag_start()
+        self.game.mouse.drag_start()
 
     def on_mouse_release(self, x, y, button, mod):
         # If this is the end of a drag, then we shouldnt trigger a release event.
         if self.game.mouse.drag_end():
             return
+
+        # Triger a click event on the gui if the mouse is over it.
+        if self.game.gui.is_over(self.game.mouse.position):
+            return self.game.gui.click(self.game)
         
         self.game.on_mouse_release(x, y, button, mod)
 
