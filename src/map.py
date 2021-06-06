@@ -81,7 +81,7 @@ class Map:
         pickle.dump(self, outfile)
         outfile.close()
         
-def load_or_new():
+def load_or_none():
     """ If can't load mapsave file, return new map
     If it does, read the Map object from save file, and return it
     """
@@ -90,5 +90,6 @@ def load_or_new():
         map_obj = pickle.load(infile)
         infile.close()
     except:
-        map_obj = Map(100, 100)
+        map_obj = None
+        print("Failed to load mapsave file from current directory.")
     return map_obj

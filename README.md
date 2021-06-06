@@ -25,4 +25,6 @@ To run the game, you can simply cd to this `hex_game` directory and run `python3
 
 ## Moving Around
 
-Movement will be via mouse, although A and D keys are currently able to move player left and right, they will be disabled once mouse movement is enabled.
+Click and drag to move the camera and see different parts of the canvas. Scroll the mouse wheel to zoom in or out.
+
+Player movement will be via mouse, although A and D keys are currently able to move player left and right, they will be disabled once mouse movement is enabled.

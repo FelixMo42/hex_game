@@ -4,7 +4,7 @@ import pickle
 from pyglet.gl import *
 
 from src.hexdraw import draw_hex_grid, pixel_to_cord
-from src.map import Map, load_or_new
+from src.map import Map, load_or_none
 from src.hex import FloorHex, LockedHex
 from src.gui.camera import Camera
 from src.gui.mouse import Mouse
@@ -12,7 +12,7 @@ from src.gui.gui import Gui
 
 class Game():
     # If a save already exists, load it, otherwise return new 100x100 map
-    map = load_or_new()
+    map = Map(100, 100)
 
     # Radius of hexagons.
     radius = 60
@@ -25,9 +25,21 @@ class Game():
     # User Interface #
     ##################
     
-    @gui.button("save")
+    @gui.button("Save")
     def save(self):
         self.map.pickle_map()
+        
+    @gui.button("Load")
+    def load(self):
+        """ Load a save, but if that doesn't work, leave current
+        map untouched.
+        TODO: confirmation dialog before wiping out current map
+        """
+        confirm_window = pyglet.window.Window(caption="Confirm Load", style=pyglet.window.Window.WINDOW_STYLE_DIALOG)
+        
+        loaded = load_or_none()
+        if loaded != None:
+            self.map = loaded
 
     #################
     # Window Events #
