@@ -1,5 +1,5 @@
 from .hex import WallHex, FloorHex
-from .player import *
+from .entity import *
 import pickle
 
 # Paramaters/constants we can tweak
